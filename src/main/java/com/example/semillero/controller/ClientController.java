@@ -4,6 +4,8 @@ import com.example.semillero.exception.ServiceException;
 import com.example.semillero.model.ClientDto;
 import com.example.semillero.model.ResponseDto;
 import com.example.semillero.service.IClientService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,12 @@ import java.util.List;
 
 //Manejamos metodos basados en la arquitectura rest
 
+
 @RestController
 @RequestMapping(path = "/api")
 public class ClientController {
+
+    private static final Logger log = LogManager.getLogger(ClientController.class);
 
     @Autowired //bean que inyecta la implementacion de la clase
     private IClientService clientService;
@@ -38,7 +43,8 @@ public class ClientController {
 
         try {
             ResponseDto responseDto = new ResponseDto();
-            System.out.println("Entra al controller POST" + clientDto.toString());
+
+            log.info("OK controller: {}", clientDto.toString());
             //Respues en caso de positivo
             clientService.saveClient(clientDto);
             responseDto.setMessage("Solicitud exitosa");
