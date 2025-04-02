@@ -6,7 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "TBL_CLIENT") // Cambia el nombre de la tabla
 public class ClientEntity {
@@ -29,51 +31,5 @@ public class ClientEntity {
     @Column(name = "STR_STATE")
     private String strEstado;
 
-    public Long getIdClient() {
-        return idClient;
-    }
 
-    public void setIdClient(Long idClient) {
-        this.idClient = idClient;
-    }
-
-    public String getStrApellidos() {
-        return strApellidos;
-    }
-
-    public void setStrApellidos(String strApellidos) {
-        this.strApellidos = strApellidos;
-    }
-
-    public String getStrCedula() {
-        return strCedula;
-    }
-
-    public void setStrCedula(String strCedula) {
-        this.strCedula = strCedula;
-    }
-
-    public String getStrEmail() {
-        return strEmail;
-    }
-
-    public void setStrEmail(String strEmail) {
-        this.strEmail = strEmail;
-    }
-
-    public String getStrEstado() {
-        return strEstado;
-    }
-
-    public void setStrEstado(String strEstado) {
-        this.strEstado = strEstado;
-    }
-
-    public String getStrFirstName() {
-        return strFirstName;
-    }
-
-    public void setStrFirstName(String strFirstName) {
-        this.strFirstName = strFirstName;
-    }
 }
