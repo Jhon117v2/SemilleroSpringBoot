@@ -1,6 +1,7 @@
 package com.example.semillero.service;
 
 import com.example.semillero.entity.ClientEntity;
+import com.example.semillero.enums.ExceptionEnum;
 import com.example.semillero.exception.ServiceException;
 import com.example.semillero.mapper.ClientMapper;
 import com.example.semillero.model.ClientDto;
@@ -15,7 +16,8 @@ import java.util.List;
 public class ClientServiceImpl implements IClientService {
 
     /*
-     @Autowired //inyectamos la dependencia para no hacer un constructor, se puede usar en clases de acceso inferior
+     @Autowired //inyectamos la dependencia para no hacer un constructor,
+     se puede usar en clases de acceso inferior
      @Autowired
     private ClientRepository clientRepository;
 
@@ -36,7 +38,9 @@ public class ClientServiceImpl implements IClientService {
     @Override
     public ClientDto getClientById(Long id) throws ServiceException {
         ClientEntity client = clientRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Cliente no encontrado", 404));
+                .orElseThrow(() -> new ServiceException(
+                        ExceptionEnum.CLIENT_NOT_FOUND.getMessage(),
+                        ExceptionEnum.CLIENT_NOT_FOUND.getStatusCode()));
         return mapper.clientEntityToDTO(client);
     }
 
@@ -54,22 +58,28 @@ public class ClientServiceImpl implements IClientService {
     public void saveClient(ClientDto clientDto) throws ServiceException {
 
         if (clientDto == null) {
-            throw new ServiceException("Contenido nulo", 400);
+            throw new ServiceException(ExceptionEnum.REGISTER_NULL.getMessage(),
+                    ExceptionEnum.REGISTER_NULL.getStatusCode());
         }
-        if (clientDto.getStrFirstName() == null) {
-            throw new ServiceException("Nombre Nulo", 400);
+        if (clientDto.getStrFirstName() == null || clientDto.getStrFirstName().isEmpty()) {
+            throw new ServiceException(ExceptionEnum.NAME_NULL.getMessage(),
+                    ExceptionEnum.NAME_NULL.getStatusCode());
         }
         if (clientDto.getStrApellidos() == null) {
-            throw new ServiceException("Apellido nulo", 400);
+            throw new ServiceException(ExceptionEnum.LAST_NAME_NULL.getMessage(),
+                    ExceptionEnum.LAST_NAME_NULL.getStatusCode());
         }
         if (clientDto.getStrCedula() == null) {
-            throw new ServiceException("Numero de identificacion nulo", 400);
+            throw new ServiceException(ExceptionEnum.DOCUMENT_NULL.getMessage(),
+                    ExceptionEnum.DOCUMENT_NULL.getStatusCode());
         }
         if (clientDto.getStrEmail() == null) {
-            throw new ServiceException("Correo nulo", 400);
+            throw new ServiceException(ExceptionEnum.EMAIL_NULL.getMessage(),
+                    ExceptionEnum.EMAIL_NULL.getStatusCode());
         }
         if (clientDto.getStrEstado() == null) {
-            throw new ServiceException("Estado nulo", 400);
+            throw new ServiceException(ExceptionEnum.STATE_NULL.getMessage(),
+                    ExceptionEnum.STATE_NULL.getStatusCode());
         }
 
         //Se usa el objeto mapper
@@ -81,26 +91,34 @@ public class ClientServiceImpl implements IClientService {
     @Override
     public void updateClient(Long id, ClientDto clientDto) throws ServiceException {
         if (clientDto == null) {
-            throw new ServiceException("Contenido nulo", 400);
+            throw new ServiceException(ExceptionEnum.REGISTER_NULL.getMessage(),
+                    ExceptionEnum.REGISTER_NULL.getStatusCode());
         }
         if (clientDto.getStrFirstName() == null) {
-            throw new ServiceException("Nombre Nulo", 400);
+            throw new ServiceException(ExceptionEnum.NAME_NULL.getMessage(),
+                    ExceptionEnum.NAME_NULL.getStatusCode());
         }
         if (clientDto.getStrApellidos() == null) {
-            throw new ServiceException("Apellido nulo", 400);
+            throw new ServiceException(ExceptionEnum.LAST_NAME_NULL.getMessage(),
+                    ExceptionEnum.LAST_NAME_NULL.getStatusCode());
         }
         if (clientDto.getStrCedula() == null) {
-            throw new ServiceException("Numero de identificacion nulo", 400);
+            throw new ServiceException(ExceptionEnum.DOCUMENT_NULL.getMessage(),
+                    ExceptionEnum.DOCUMENT_NULL.getStatusCode());
         }
         if (clientDto.getStrEmail() == null) {
-            throw new ServiceException("Correo nulo", 400);
+            throw new ServiceException(ExceptionEnum.EMAIL_NULL.getMessage(),
+                    ExceptionEnum.EMAIL_NULL.getStatusCode());
         }
         if (clientDto.getStrEstado() == null) {
-            throw new ServiceException("Estado nulo", 400);
+            throw new ServiceException(ExceptionEnum.STATE_NULL.getMessage(),
+                    ExceptionEnum.STATE_NULL.getStatusCode());
         }
 
         ClientEntity client = clientRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Cliente no encontrado", 404));
+                .orElseThrow(() -> new ServiceException(
+                        ExceptionEnum.CLIENT_NOT_FOUND.getMessage(),
+                        ExceptionEnum.CLIENT_NOT_FOUND.getStatusCode()));
 
         client.setStrFirstName(clientDto.getStrFirstName());
         client.setStrApellidos(clientDto.getStrApellidos());
@@ -114,7 +132,8 @@ public class ClientServiceImpl implements IClientService {
     @Override
     public void deleteClient(Long id) throws ServiceException {
         if (!clientRepository.existsById(id)) {
-            throw new ServiceException("Cliente no encontrado", 404);
+            throw new ServiceException(ExceptionEnum.CLIENT_NOT_FOUND.getMessage(),
+                    ExceptionEnum.CLIENT_NOT_FOUND.getStatusCode());
         }
         clientRepository.deleteById(id);
     }
@@ -124,9 +143,10 @@ public class ClientServiceImpl implements IClientService {
     @Override
     public void updateClientStatus(Long id, String status) throws ServiceException {
         ClientEntity client = clientRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Cliente no encontrado", 404));
+                .orElseThrow(() -> new ServiceException(
+                        ExceptionEnum.CLIENT_NOT_FOUND.getMessage(),
+                        ExceptionEnum.CLIENT_NOT_FOUND.getStatusCode()));
         client.setStrEstado(status);
         clientRepository.save(client);
     }
-
 }

@@ -1,5 +1,6 @@
 package com.example.semillero.controller;
 
+import com.example.semillero.enums.RespondEnum;
 import com.example.semillero.exception.ServiceException;
 import com.example.semillero.model.ClientDto;
 import com.example.semillero.model.ResponseDto;
@@ -42,7 +43,8 @@ public class ClientController {
         try {
             log.info("OK controller: {}", clientDto.toString());
             clientService.saveClient(clientDto);
-            return ResponseEntity.status(201).body(new ResponseDto(201, "Solicitud exitosa"));
+            return ResponseEntity.status(RespondEnum.SAVE.getStatusCode()).body(
+                    new ResponseDto(RespondEnum.SAVE.getStatusCode(), RespondEnum.SAVE.getMessage()));
         } catch (ServiceException e) {
             return ResponseEntity.status(e.getStatuscode()).body(new ResponseDto(e.getStatuscode(), e.getMessage()));
         }
@@ -62,7 +64,8 @@ public class ClientController {
     public ResponseEntity<ResponseDto> updateClient(@PathVariable Long id, @RequestBody ClientDto clientDto) {
         try {
             clientService.updateClient(id, clientDto);
-            return ResponseEntity.status(200).body(new ResponseDto(200, "Cliente actualizado con éxito"));
+            return ResponseEntity.status(RespondEnum.UDATE.getStatusCode()).body(
+                    new ResponseDto(RespondEnum.UDATE.getStatusCode(), RespondEnum.UDATE.getMessage()));
         } catch (ServiceException e) {
             return ResponseEntity.status(e.getStatuscode()).body(new ResponseDto(e.getStatuscode(), e.getMessage()));
         }
@@ -72,9 +75,11 @@ public class ClientController {
     public ResponseEntity<ResponseDto> deleteClient(@PathVariable Long id) {
         try {
             clientService.deleteClient(id);
-            return ResponseEntity.ok(new ResponseDto(200, "Cliente eliminado con éxito"));
+            return ResponseEntity.ok(new ResponseDto(RespondEnum.DELETE.getStatusCode(),
+                    RespondEnum.DELETE.getMessage()));
         } catch (ServiceException e) {
-            return new ResponseEntity<>(new ResponseDto(502, "Error al eliminar el cliente"), HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(new ResponseDto(RespondEnum.DELETE.getStatusCode(),
+                    RespondEnum.ERROR.getMessage()), HttpStatus.BAD_GATEWAY);
         }
     }
 
@@ -82,9 +87,11 @@ public class ClientController {
     public ResponseEntity<ResponseDto> updateClientStatus(@PathVariable Long id, @RequestBody String status) {
         try {
             clientService.updateClientStatus(id, status);
-            return ResponseEntity.ok(new ResponseDto(200, "Estado del cliente actualizado con éxito, id: " + id));
+            return ResponseEntity.ok(new ResponseDto(RespondEnum.UDATE.getStatusCode(),
+                    RespondEnum.UDATE.getMessage() + "id: " + id));
         } catch (ServiceException e) {
-            return new ResponseEntity<>(new ResponseDto(502, "Error al actualizar el estado del cliente"), HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(new ResponseDto(RespondEnum.DELETE.getStatusCode(),
+                    RespondEnum.ERROR.getMessage()), HttpStatus.BAD_GATEWAY);
         }
     }
 }

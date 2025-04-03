@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "TBL_CLIENT") // Cambia el nombre de la tabla
+@Table(name = "TBL_CLIENTS") // Cambia el nombre de la tabla
 public class ClientEntity {
 
     @Id
