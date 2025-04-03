@@ -6,24 +6,16 @@ import com.example.semillero.exception.ServiceException;
 import com.example.semillero.mapper.ClientMapper;
 import com.example.semillero.model.ClientDto;
 import com.example.semillero.repository.ClientRepository;
+import com.example.semillero.util.ValidateClient;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//Recuerda realizar el mapeo para esta clase
+
 @Service //Usamos el servicio para que nos de permisos
 public class ClientServiceImpl implements IClientService {
 
-    /*
-     @Autowired //inyectamos la dependencia para no hacer un constructor,
-     se puede usar en clases de acceso inferior
-     @Autowired
-    private ClientRepository clientRepository;
-
-    @Autowired
-    private ClientMapper mapper;
-     */
 
     //En caso de no usar el @Autowired, usamos lo siguiente con el constructor
     private final ClientRepository clientRepository;
@@ -34,7 +26,7 @@ public class ClientServiceImpl implements IClientService {
         this.clientRepository = clientRepository;
         this.mapper = mapper;
     }
-
+    
     @Override
     public ClientDto getClientById(Long id) throws ServiceException {
         ClientEntity client = clientRepository.findById(id)
@@ -57,63 +49,18 @@ public class ClientServiceImpl implements IClientService {
     @Override
     public void saveClient(ClientDto clientDto) throws ServiceException {
 
-        if (clientDto == null) {
-            throw new ServiceException(ExceptionEnum.REGISTER_NULL.getMessage(),
-                    ExceptionEnum.REGISTER_NULL.getStatusCode());
-        }
-        if (clientDto.getStrFirstName() == null || clientDto.getStrFirstName().isEmpty()) {
-            throw new ServiceException(ExceptionEnum.NAME_NULL.getMessage(),
-                    ExceptionEnum.NAME_NULL.getStatusCode());
-        }
-        if (clientDto.getStrApellidos() == null) {
-            throw new ServiceException(ExceptionEnum.LAST_NAME_NULL.getMessage(),
-                    ExceptionEnum.LAST_NAME_NULL.getStatusCode());
-        }
-        if (clientDto.getStrCedula() == null) {
-            throw new ServiceException(ExceptionEnum.DOCUMENT_NULL.getMessage(),
-                    ExceptionEnum.DOCUMENT_NULL.getStatusCode());
-        }
-        if (clientDto.getStrEmail() == null) {
-            throw new ServiceException(ExceptionEnum.EMAIL_NULL.getMessage(),
-                    ExceptionEnum.EMAIL_NULL.getStatusCode());
-        }
-        if (clientDto.getStrEstado() == null) {
-            throw new ServiceException(ExceptionEnum.STATE_NULL.getMessage(),
-                    ExceptionEnum.STATE_NULL.getStatusCode());
-        }
+        ValidateClient.validateClient(clientDto);
 
-        //Se usa el objeto mapper
+
+        //Se usa el objeto mapper para guardado
         ClientEntity client = mapper.clientMapper(clientDto);
-        //Guardado de la informacion
         clientRepository.save(client);
     }
 
+    @Transactional
     @Override
     public void updateClient(Long id, ClientDto clientDto) throws ServiceException {
-        if (clientDto == null) {
-            throw new ServiceException(ExceptionEnum.REGISTER_NULL.getMessage(),
-                    ExceptionEnum.REGISTER_NULL.getStatusCode());
-        }
-        if (clientDto.getStrFirstName() == null) {
-            throw new ServiceException(ExceptionEnum.NAME_NULL.getMessage(),
-                    ExceptionEnum.NAME_NULL.getStatusCode());
-        }
-        if (clientDto.getStrApellidos() == null) {
-            throw new ServiceException(ExceptionEnum.LAST_NAME_NULL.getMessage(),
-                    ExceptionEnum.LAST_NAME_NULL.getStatusCode());
-        }
-        if (clientDto.getStrCedula() == null) {
-            throw new ServiceException(ExceptionEnum.DOCUMENT_NULL.getMessage(),
-                    ExceptionEnum.DOCUMENT_NULL.getStatusCode());
-        }
-        if (clientDto.getStrEmail() == null) {
-            throw new ServiceException(ExceptionEnum.EMAIL_NULL.getMessage(),
-                    ExceptionEnum.EMAIL_NULL.getStatusCode());
-        }
-        if (clientDto.getStrEstado() == null) {
-            throw new ServiceException(ExceptionEnum.STATE_NULL.getMessage(),
-                    ExceptionEnum.STATE_NULL.getStatusCode());
-        }
+        ValidateClient.validateClient(clientDto);
 
         ClientEntity client = clientRepository.findById(id)
                 .orElseThrow(() -> new ServiceException(
