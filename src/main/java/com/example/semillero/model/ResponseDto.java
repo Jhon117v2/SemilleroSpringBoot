@@ -1,25 +1,21 @@
 package com.example.semillero.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 //Este es un dto para obtener un mensaje de respuesta
+@Getter
+@Setter
 public class ResponseDto {
+    private int statusCode;
+    private String message;
 
-    private int statuscode;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
+    // Constructor con parámetros
+    public ResponseDto(int statusCode, String message) {
+        this.statusCode = statusCode;
         this.message = message;
     }
 
-    public int getStatuscode() {
-        return statuscode;
-    }
 
-    public void setStatuscode(int statuscode) {
-        this.statuscode = statuscode;
-    }
-
-    private String message;
 }
+

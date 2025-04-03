@@ -15,7 +15,7 @@ public class ClientMapper {
 
     public ClientEntity clientMapper(ClientDto clientDto) {
 
-        ClientEntity client = new ClientEntity(); // Se inicializa incumpliendo el principi de inversion de dependencias
+        ClientEntity client = new ClientEntity(); // Se inicializa
 
         client.setStrFirstName(clientDto.getStrFirstName());
         client.setStrApellidos(clientDto.getStrApellidos());

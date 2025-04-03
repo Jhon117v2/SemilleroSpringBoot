@@ -6,7 +6,6 @@ import com.example.semillero.model.ResponseDto;
 import com.example.semillero.service.IClientService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,50 +20,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-//Manejamos metodos basados en la arquitectura rest
-
-
 @RestController
 @RequestMapping(path = "/api")
 public class ClientController {
 
     private static final Logger log = LogManager.getLogger(ClientController.class);
 
-    @Autowired //bean que inyecta la implementacion de la clase
-    private IClientService clientService;
 
-    //Objeto de la clase DTO
-    private ResponseDto responseDto = new ResponseDto();
+    private final IClientService clientService;
 
-    //Respuesta de creación del cliente, @RequestBody muy importante para el controlador y hacer peticiones json desde postman
+
+    //Se inyecta las dependencias por constructor
+    public ClientController(IClientService clientService) {
+        this.clientService = clientService;
+
+    }
+
+
     @PostMapping(path = "/save")
     public ResponseEntity<ResponseDto> saveClient(@RequestBody ClientDto clientDto) {
-
-
         try {
-            ResponseDto responseDto = new ResponseDto();
-
             log.info("OK controller: {}", clientDto.toString());
-            //Respues en caso de positivo
             clientService.saveClient(clientDto);
-            responseDto.setMessage("Solicitud exitosa");
-            responseDto.setStatuscode(201);
-            return ResponseEntity.ok(responseDto);
+            return ResponseEntity.status(201).body(new ResponseDto(201, "Solicitud exitosa"));
         } catch (ServiceException e) {
-            //Va a reponder un ResponseDTO
-            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+            return ResponseEntity.status(e.getStatuscode()).body(new ResponseDto(e.getStatuscode(), e.getMessage()));
         }
     }
 
-    //Obtener todos los clientes
-
-    //Respuesta de creación del cliente, @RequestBody muy importante para el controlador y hacer peticiones json desde postman
-    //Los get no necesitan request boduy
     @GetMapping(path = "/getAll")
-    public ResponseEntity<List<ClientDto>> saveClient() {
-
+    public ResponseEntity<List<ClientDto>> getAllClients() {
         return ResponseEntity.ok(clientService.showAllClients());
-
     }
 
     @GetMapping(path = "/get/{id}")
@@ -76,11 +62,9 @@ public class ClientController {
     public ResponseEntity<ResponseDto> updateClient(@PathVariable Long id, @RequestBody ClientDto clientDto) {
         try {
             clientService.updateClient(id, clientDto);
-            responseDto.setMessage("Cliente actualizado con éxito");
-            responseDto.setStatuscode(200);
-            return ResponseEntity.ok(responseDto);
+            return ResponseEntity.status(200).body(new ResponseDto(200, "Cliente actualizado con éxito"));
         } catch (ServiceException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+            return ResponseEntity.status(e.getStatuscode()).body(new ResponseDto(e.getStatuscode(), e.getMessage()));
         }
     }
 
@@ -88,25 +72,19 @@ public class ClientController {
     public ResponseEntity<ResponseDto> deleteClient(@PathVariable Long id) {
         try {
             clientService.deleteClient(id);
-            responseDto.setMessage("Cliente eliminado con éxito");
-            responseDto.setStatuscode(200);
-            return ResponseEntity.ok(responseDto);
+            return ResponseEntity.ok(new ResponseDto(200, "Cliente eliminado con éxito"));
         } catch (ServiceException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(new ResponseDto(502, "Error al eliminar el cliente"), HttpStatus.BAD_GATEWAY);
         }
     }
 
-    //Actualizar unicamente el estado
     @PatchMapping(path = "/updateStatus/{id}")
     public ResponseEntity<ResponseDto> updateClientStatus(@PathVariable Long id, @RequestBody String status) {
         try {
             clientService.updateClientStatus(id, status);
-            responseDto.setMessage("Estado del cliente actualizado con éxito, id: " + id);
-            responseDto.setStatuscode(200);
-            return ResponseEntity.ok(responseDto);
+            return ResponseEntity.ok(new ResponseDto(200, "Estado del cliente actualizado con éxito, id: " + id));
         } catch (ServiceException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(new ResponseDto(502, "Error al actualizar el estado del cliente"), HttpStatus.BAD_GATEWAY);
         }
     }
-
 }

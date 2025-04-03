@@ -6,20 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ServiceException extends Exception {
-
-    private int statuscode;
-    private String message;
+public class ServiceException extends RuntimeException { //Con RuntimeException se evita el uso obligatorio de throws
+    private final int statuscode;
 
     public ServiceException(String message, int statuscode) {
-        this.message = message;
+        super(message);
         this.statuscode = statuscode;
     }
 
-
-    public ServiceException(String message, Throwable cause, String message1, int statuscode) {
-        super(message, cause);
-        this.message = message1;
-        this.statuscode = statuscode;
-    }
 }

@@ -5,21 +5,33 @@ import com.example.semillero.exception.ServiceException;
 import com.example.semillero.mapper.ClientMapper;
 import com.example.semillero.model.ClientDto;
 import com.example.semillero.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//En esta clase se implementa los metodos que se crearone en el Service
 //Recuerda realizar el mapeo para esta clase
 @Service //Usamos el servicio para que nos de permisos
 public class ClientServiceImpl implements IClientService {
 
-    @Autowired //inyectamos la dependencia para no hacer un constructor, se puede usar en clases de acceso inferior
+    /*
+     @Autowired //inyectamos la dependencia para no hacer un constructor, se puede usar en clases de acceso inferior
+     @Autowired
     private ClientRepository clientRepository;
 
-    //Creamos el objeto del mapeado
-    private ClientMapper mapper = new ClientMapper();
+    @Autowired
+    private ClientMapper mapper;
+     */
+
+    //En caso de no usar el @Autowired, usamos lo siguiente con el constructor
+    private final ClientRepository clientRepository;
+    private final ClientMapper mapper;
+
+    //Se inyecta las dependencias gracias al bean de ClientMapper
+    public ClientServiceImpl(ClientRepository clientRepository, ClientMapper mapper) {
+        this.clientRepository = clientRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public ClientDto getClientById(Long id) throws ServiceException {
@@ -108,6 +120,7 @@ public class ClientServiceImpl implements IClientService {
     }
 
     //Aplicacion del patch
+    @Transactional
     @Override
     public void updateClientStatus(Long id, String status) throws ServiceException {
         ClientEntity client = clientRepository.findById(id)

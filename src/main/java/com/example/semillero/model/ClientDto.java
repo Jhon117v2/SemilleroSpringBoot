@@ -2,6 +2,11 @@ package com.example.semillero.model;
 
 //Tomamos solo los datos necesarios de la entidad en el dto
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ClientDto {
 
 
@@ -19,45 +24,6 @@ public class ClientDto {
 
     private String strEstado;
 
-    public String getStrApellidos() {
-        return strApellidos;
-    }
-
-    public void setStrApellidos(String strApellidos) {
-        this.strApellidos = strApellidos;
-    }
-
-    public String getStrCedula() {
-        return strCedula;
-    }
-
-    public void setStrCedula(String strCedula) {
-        this.strCedula = strCedula;
-    }
-
-    public String getStrEmail() {
-        return strEmail;
-    }
-
-    public void setStrEmail(String strEmail) {
-        this.strEmail = strEmail;
-    }
-
-    public String getStrEstado() {
-        return strEstado;
-    }
-
-    public void setStrEstado(String strEstado) {
-        this.strEstado = strEstado;
-    }
-
-    public String getStrFirstName() {
-        return strFirstName;
-    }
-
-    public void setStrFirstName(String strFirstName) {
-        this.strFirstName = strFirstName;
-    }
 
     @Override
     public String toString() {
