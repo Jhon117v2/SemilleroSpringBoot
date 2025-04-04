@@ -18,10 +18,10 @@ public class ClientMapper {
         ClientEntity client = new ClientEntity(); // Se inicializa
 
         client.setStrFirstName(clientDto.getStrFirstName());
-        client.setStrApellidos(clientDto.getStrApellidos());
-        client.setStrCedula(clientDto.getStrCedula());
+        client.setStrLastName(clientDto.getStrLastName());
+        client.setStrIdentificationNumber(clientDto.getStrIdentificationNumber());
         client.setStrEmail(clientDto.getStrEmail());
-        client.setStrEstado(clientDto.getStrEstado());
+        client.setStrState(clientDto.getStrState());
 
 
         return client;
@@ -33,10 +33,10 @@ public class ClientMapper {
 
 
         clientDto1.setStrFirstName(clientEntity.getStrFirstName());
-        clientDto1.setStrApellidos(clientEntity.getStrApellidos());
-        clientDto1.setStrCedula(clientEntity.getStrCedula());
+        clientDto1.setStrLastName(clientEntity.getStrLastName());
+        clientDto1.setStrIdentificationNumber(clientEntity.getStrIdentificationNumber());
         clientDto1.setStrEmail(clientEntity.getStrEmail());
-        clientDto1.setStrEstado(clientEntity.getStrEstado());
+        clientDto1.setStrState(clientEntity.getStrState());
 
 
         return clientDto1;

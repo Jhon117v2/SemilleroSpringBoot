@@ -15,24 +15,24 @@ public class ClientDto {
 
     private String strFirstName;
 
-    private String strApellidos;
+    private String strLastName;
 
 
-    private String strCedula;
+    private String strIdentificationNumber;
 
     private String strEmail;
 
-    private String strEstado;
+    private String strState;
 
 
     @Override
     public String toString() {
         return "ClientDto{" +
-                "strApellidos='" + strApellidos + '\'' +
+                "strApellidos='" + strLastName + '\'' +
                 ", strFirstName='" + strFirstName + '\'' +
-                ", strCedula='" + strCedula + '\'' +
+                ", strCedula='" + strIdentificationNumber + '\'' +
                 ", strEmail='" + strEmail + '\'' +
-                ", strEstado='" + strEstado + '\'' +
+                ", strEstado='" + strState + '\'' +
                 '}';
     }
 }

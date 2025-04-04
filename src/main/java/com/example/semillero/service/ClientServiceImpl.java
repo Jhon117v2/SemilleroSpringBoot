@@ -26,7 +26,7 @@ public class ClientServiceImpl implements IClientService {
         this.clientRepository = clientRepository;
         this.mapper = mapper;
     }
-    
+
     @Override
     public ClientDto getClientById(Long id) throws ServiceException {
         ClientEntity client = clientRepository.findById(id)
@@ -68,10 +68,10 @@ public class ClientServiceImpl implements IClientService {
                         ExceptionEnum.CLIENT_NOT_FOUND.getStatusCode()));
 
         client.setStrFirstName(clientDto.getStrFirstName());
-        client.setStrApellidos(clientDto.getStrApellidos());
-        client.setStrCedula(clientDto.getStrCedula());
+        client.setStrLastName(clientDto.getStrLastName());
+        client.setStrIdentificationNumber(clientDto.getStrIdentificationNumber());
         client.setStrEmail(clientDto.getStrEmail());
-        client.setStrEstado(clientDto.getStrEstado());
+        client.setStrState(clientDto.getStrState());
 
         clientRepository.save(client);
     }
@@ -93,7 +93,7 @@ public class ClientServiceImpl implements IClientService {
                 .orElseThrow(() -> new ServiceException(
                         ExceptionEnum.CLIENT_NOT_FOUND.getMessage(),
                         ExceptionEnum.CLIENT_NOT_FOUND.getStatusCode()));
-        client.setStrEstado(status);
+        client.setStrState(status);
         clientRepository.save(client);
     }
 }

@@ -5,17 +5,36 @@ import com.example.semillero.model.ClientDto;
 
 import java.util.List;
 
-//Aqui estan los metodos y en la implementacion se sobreescriben
+/**
+ * Mircroservices to be called by a RESTful API.
+ * Interface that contains the REST methods for ClientEntity.
+ *
+ * @author jhon, Oscar,Julian
+ */
+
 public interface IClientService {
 
-
+    /**
+     * HTTP GET method to get and show registers.
+     */
     List<ClientDto> showAllClients();
 
+    /**
+     * HTTP GET method to get and show registers by id.
+     *
+     * @param id The id column to the ClientEntity.
+     * @throws ServiceException Implementation of a personalized exception.
+     */
     ClientDto getClientById(Long id) throws ServiceException;
 
-    //Guardar los datos en el saveClient
+    /**
+     * HTTP POST method to create a new register.
+     *
+     * @param clientDto Registers of ClientEntity.
+     * @throws ServiceException Implementation of a personalized exception.
+     */
     void saveClient(ClientDto clientDto) throws ServiceException;
-    //Se debe crear una java Class, para implementar los metodos defenidos anteriormente
+
 
     void updateClient(Long id, ClientDto clientDto) throws ServiceException;
 

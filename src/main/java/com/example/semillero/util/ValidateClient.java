@@ -17,11 +17,11 @@ public class ValidateClient {
             throw new ServiceException(ExceptionEnum.NAME_NULL.getMessage(),
                     ExceptionEnum.NAME_NULL.getStatusCode());
         }
-        if (clientDto.getStrApellidos() == null || clientDto.getStrApellidos().isEmpty()) {
+        if (clientDto.getStrLastName() == null || clientDto.getStrLastName().isEmpty()) {
             throw new ServiceException(ExceptionEnum.LAST_NAME_NULL.getMessage(),
                     ExceptionEnum.LAST_NAME_NULL.getStatusCode());
         }
-        if (clientDto.getStrCedula() == null || clientDto.getStrCedula().isEmpty()) {
+        if (clientDto.getStrIdentificationNumber() == null || clientDto.getStrIdentificationNumber().isEmpty()) {
             throw new ServiceException(ExceptionEnum.DOCUMENT_NULL.getMessage(),
                     ExceptionEnum.DOCUMENT_NULL.getStatusCode());
         }
@@ -29,7 +29,7 @@ public class ValidateClient {
             throw new ServiceException(ExceptionEnum.EMAIL_NULL.getMessage(),
                     ExceptionEnum.EMAIL_NULL.getStatusCode());
         }
-        if (clientDto.getStrEstado() == null || clientDto.getStrEstado().isEmpty()) {
+        if (clientDto.getStrState() == null || clientDto.getStrState().isEmpty()) {
             throw new ServiceException(ExceptionEnum.STATE_NULL.getMessage(),
                     ExceptionEnum.STATE_NULL.getStatusCode());
         }
