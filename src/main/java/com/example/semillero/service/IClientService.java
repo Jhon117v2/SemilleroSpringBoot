@@ -35,10 +35,27 @@ public interface IClientService {
      */
     void saveClient(ClientDto clientDto) throws ServiceException;
 
-
+    /**
+     * HTTP PUT method to update the entire fields of a register.
+     *
+     * @param id        The id column to the ClientEntity.
+     * @param clientDto Registers of the ClientEntity.
+     * @throws ServiceException Implementation of a personalized exception.
+     */
     void updateClient(Long id, ClientDto clientDto) throws ServiceException;
 
+    /**
+     * HTTP DELETE method to delete a register.
+     *
+     * @param id The id column to the ClientEntity.
+     * @throws ServiceException Implementation of a personalized exception.
+     */
     void deleteClient(Long id) throws ServiceException;
 
+    /**
+     * @param id     The id column to the ClientEntity.
+     * @param status The status colum to the ClientEntity.
+     * @throws ServiceException Implementation of a personalized exception.
+     */
     void updateClientStatus(Long id, String status) throws ServiceException;
 }

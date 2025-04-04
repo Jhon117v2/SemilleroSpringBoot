@@ -1,14 +1,10 @@
 package com.example.semillero.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.Optional;
-
+import com.example.semillero.entity.ClientEntity;
+import com.example.semillero.exception.ServiceException;
+import com.example.semillero.mapper.ClientMapper;
+import com.example.semillero.model.ClientDto;
+import com.example.semillero.repository.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,11 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.semillero.entity.ClientEntity;
-import com.example.semillero.exception.ServiceException;
-import com.example.semillero.mapper.ClientMapper;
-import com.example.semillero.model.ClientDto;
-import com.example.semillero.repository.ClientRepository;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ClientServiceImplTest {
@@ -41,17 +40,17 @@ class ClientServiceImplTest {
     void setUp() {
         clientDto = new ClientDto();
         clientDto.setStrFirstName("John");
-        clientDto.setStrApellidos("Doe");
-        clientDto.setStrCedula("123456");
+        clientDto.setStrLastName("Doe");
+        clientDto.setStrIdentificationNumber("123456");
         clientDto.setStrEmail("john@example.com");
-        clientDto.setStrEstado("Activo");
+        clientDto.setStrState("Activo");
 
         clientEntity = new ClientEntity();
         clientEntity.setStrFirstName("John");
-        clientEntity.setStrApellidos("Doe");
-        clientEntity.setStrCedula("123456");
+        clientEntity.setStrLastName("Doe");
+        clientEntity.setStrIdentificationNumber("123456");
         clientEntity.setStrEmail("john@example.com");
-        clientEntity.setStrEstado("Activo");
+        clientEntity.setStrState("Activo");
     }
 
     @Test
@@ -130,7 +129,7 @@ class ClientServiceImplTest {
         clientService.updateClientStatus(1L, "Inactivo");
 
         verify(clientRepository).save(clientEntity);
-        assertEquals("Inactivo", clientEntity.getStrEstado());
+        assertEquals("Inactivo", clientEntity.getStrState());
     }
 
     @Test
@@ -139,5 +138,5 @@ class ClientServiceImplTest {
 
         assertThrows(ServiceException.class, () -> clientService.updateClientStatus(1L, "Inactivo"));
     }
-    
+
 }
