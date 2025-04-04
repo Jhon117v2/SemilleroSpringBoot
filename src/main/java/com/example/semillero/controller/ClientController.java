@@ -5,6 +5,7 @@ import com.example.semillero.exception.ServiceException;
 import com.example.semillero.model.ClientDto;
 import com.example.semillero.model.ResponseDto;
 import com.example.semillero.service.IClientService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,9 @@ public class ClientController {
 
 
     @PostMapping(path = "/save")
+    @Operation(summary = "Create a new client.",
+            description = "Register a new client into H2 DataBase.",
+            tags = {"POST"})
     public ResponseEntity<ResponseDto> saveClient(@RequestBody ClientDto clientDto) {
         try {
             log.info("OK controller: {}", clientDto.toString());
@@ -51,16 +55,25 @@ public class ClientController {
     }
 
     @GetMapping(path = "/getAll")
+    @Operation(summary = "Get all clients.",
+            description = "Get all clients in H2 DataBase.",
+            tags = {"GET"})
     public ResponseEntity<List<ClientDto>> getAllClients() {
         return ResponseEntity.ok(clientService.showAllClients());
     }
 
     @GetMapping(path = "/get/{id}")
+    @Operation(summary = "Get client by ID.",
+            description = "Get client by ID in H2 DataBase.",
+            tags = {"GET"})
     public ResponseEntity<ClientDto> getClientById(@PathVariable Long id) throws ServiceException {
         return ResponseEntity.ok(clientService.getClientById(id));
     }
 
     @PutMapping(path = "/update/{id}")
+    @Operation(summary = "Update client by ID.",
+            description = "Update client by ID in H2 DataBase.",
+            tags = {"PUT"})
     public ResponseEntity<ResponseDto> updateClient(@PathVariable Long id, @RequestBody ClientDto clientDto) {
         try {
             clientService.updateClient(id, clientDto);
@@ -72,6 +85,9 @@ public class ClientController {
     }
 
     @DeleteMapping(path = "/delete/{id}")
+    @Operation(summary = "Delete client by ID.",
+            description = "Delete client by ID in H2 DataBase.",
+            tags = {"DELETE"})
     public ResponseEntity<ResponseDto> deleteClient(@PathVariable Long id) {
         try {
             clientService.deleteClient(id);
@@ -84,6 +100,9 @@ public class ClientController {
     }
 
     @PatchMapping(path = "/updateStatus/{id}")
+    @Operation(summary = "Patch status client by ID.",
+            description = "Patch status client by ID in H2 DataBase.",
+            tags = {"PATCH"})
     public ResponseEntity<ResponseDto> updateClientStatus(@PathVariable Long id, @RequestBody String status) {
         try {
             clientService.updateClientStatus(id, status);
